@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { BrainCircuit, Book, Shield, Zap, ArrowRight, Github } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import heroImage from '../assets/hero.png';
+import heroImage from '../assets/hero_v2.png';
 import '../styles/Landing.css';
 
 const Landing = () => {
@@ -39,6 +39,10 @@ const Landing = () => {
         }
     ];
 
+    const scrollToFeatures = () => {
+        document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' });
+    };
+
     return (
         <div className="landing-page">
             <div className="bg-blobs">
@@ -48,10 +52,18 @@ const Landing = () => {
 
             <nav className="landing-nav">
                 <div className="nav-brand">
-                    <BrainCircuit size={32} color="var(--color-accent)" />
+                    <BrainCircuit size={32} color="#6366f1" />
                     <span>Knowledge Hub</span>
                 </div>
-                <button className="btn-hero secondary" style={{ padding: '0.6rem 1.5rem', fontSize: '1rem' }} onClick={login}>
+
+                <div className="nav-links">
+                    <a href="#" className="nav-link">Home</a>
+                    <a href="#features" className="nav-link" onClick={(e) => { e.preventDefault(); scrollToFeatures(); }}>Features</a>
+                    <a href="#" className="nav-link">Privacy</a>
+                    <a href="mailto:support@knowledgehub.com" className="nav-link">Contact</a>
+                </div>
+
+                <button className="btn-hero secondary-small" onClick={login}>
                     Login
                 </button>
             </nav>
@@ -76,7 +88,7 @@ const Landing = () => {
                         className="hero-title"
                     >
                         Organize Your <br />
-                        <span style={{ color: 'var(--color-accent)' }}>Thoughts</span> with Style.
+                        <span style={{ background: 'linear-gradient(135deg, #6366f1, #a855f7)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Thoughts</span> with Style.
                     </motion.h1>
 
                     <motion.p
@@ -99,23 +111,26 @@ const Landing = () => {
                         <button className="btn-hero primary" onClick={login}>
                             Get Started Free <ArrowRight size={20} />
                         </button>
+                        <button className="btn-hero secondary-ghost" onClick={scrollToFeatures}>
+                            Learn More
+                        </button>
                     </motion.div>
                 </div>
 
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1, ease: "easeOut" }}
+                    initial={{ opacity: 0, scale: 0.9, rotate: -5 }}
+                    animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                    transition={{ duration: 1.2, ease: "easeOut" }}
                     className="hero-visual"
                 >
                     <div className="visual-container">
-                        <img src={heroImage} alt="Future Knowledge Base" />
+                        <img src={heroImage} alt="Future Knowledge Base" loading="eager" />
                         <div className="visual-overlay"></div>
                     </div>
                 </motion.div>
             </header>
 
-            <section className="features-section">
+            <section id="features" className="features-section">
                 <div className="section-header">
                     <motion.h2
                         initial={{ opacity: 0, y: 30 }}
