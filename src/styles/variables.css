@@ -1,12 +1,12 @@
 :root {
   /* Premium Dark Theme Palette - Matching Landing Page */
-  --color-bg-main: #0f1115;
-  --color-bg-secondary: #161920;
-  --color-bg-elevated: #1e222b;
+  --color-bg-main: #0b0d11;
+  --color-bg-secondary: #0f1115;
+  --color-bg-elevated: #161920;
 
   --color-text-primary: #ffffff;
-  --color-text-secondary: #9ca3af;
-  --color-text-muted: #6b7280;
+  --color-text-secondary: #a1a1aa;
+  --color-text-muted: #71717a;
 
   --color-accent: #6366f1;
   /* Modern Indigo */
@@ -17,13 +17,13 @@
   --color-danger: #ef4444;
   --color-success: #22c55e;
 
-  --color-border: #2d313e;
-  --color-border-hover: #4b5563;
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-hover: rgba(255, 255, 255, 0.15);
 
   /* Glassmorphism */
-  --glass-bg: rgba(30, 34, 43, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --glass-bg: rgba(15, 17, 21, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 
   /* Spacing & Layout */
   --sidebar-width: 280px;
@@ -31,26 +31,11 @@
 
   /* Typography */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 24px;
 
   /* Transitions */
   --transition-fast: 150ms ease;
   --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-[data-theme="light"] {
-  --color-bg-main: #f8fafc;
-  --color-bg-secondary: #ffffff;
-  --color-bg-elevated: #ffffff;
-
-  --color-text-primary: #0f172a;
-  --color-text-secondary: #475569;
-  --color-text-muted: #94a3b8;
-
-  --color-border: #e2e8f0;
-
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(0, 0, 0, 0.05);
 }

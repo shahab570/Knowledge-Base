@@ -9,24 +9,23 @@
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--color-border);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     position: relative;
     z-index: 10;
 }
 
 .sidebar:hover {
-    box-shadow: var(--shadow-md);
-    background: rgba(255, 255, 255, 0.75);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    background: var(--color-bg-elevated);
 }
 
 /* Header */
 .sidebar-header {
     height: var(--header-height);
-    padding: 0 24px;
+    padding: 20px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /* No border bottom for clean look, just spacing */
     margin-bottom: 8px;
 }
 
@@ -35,7 +34,6 @@
     font-weight: 700;
     color: var(--color-text-primary);
     letter-spacing: -0.02em;
-    /* Gradient text for brand matching landing */
     background: var(--color-accent-gradient);
     -webkit-background-clip: text;
     background-clip: text;
@@ -51,12 +49,13 @@
 
 .empty-state {
     text-align: center;
-    color: var(--text-dim);
+    color: var(--color-text-muted);
     font-size: 0.9rem;
     margin-top: 40px;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.03);
     padding: 20px;
     border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
 }
 
 /* Tree Items */
@@ -69,9 +68,8 @@
     align-items: center;
     padding: 10px 14px;
     border-radius: var(--radius-md);
-    /* Softer corners */
     cursor: pointer;
-    color: var(--text-muted);
+    color: var(--color-text-secondary);
     transition: all 0.2s ease;
     user-select: none;
     font-size: 0.95rem;
@@ -79,34 +77,31 @@
 }
 
 .tree-row:hover {
-    background: white;
-    color: var(--primary);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-    transform: translateX(2px);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--color-text-primary);
+    transform: translateX(4px);
 }
 
 .category-row {
     font-weight: 600;
-    color: var(--text-main);
+    color: var(--color-text-primary);
 }
 
 .sub-row {
     padding-left: 32px;
     font-size: 0.9rem;
-    color: var(--text-muted);
+    color: var(--color-text-secondary);
 }
 
 .sub-row:hover {
-    color: var(--primary-hover);
+    color: var(--color-accent);
 }
 
 .expand-icon {
-    margin-right: 18px;
-    /* More breathing room */
+    margin-right: 12px;
     display: flex;
     align-items: center;
-    opacity: 0.5;
-    color: var(--text-dim);
+    opacity: 0.6;
 }
 
 .tree-label {
@@ -136,19 +131,20 @@
     padding: 4px;
     width: 24px;
     height: 24px;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    color: var(--color-text-muted);
 }
 
 .icon-btn.tiny:hover {
-    background: var(--primary);
+    background: var(--color-accent);
     color: white;
+    transform: scale(1.1);
 }
 
 .icon-btn.tiny.danger:hover {
-    background: #feaeb8;
-    /* Soft red pastel */
-    color: #fff;
+    background: var(--color-danger);
+    color: white;
 }
 
 /* Sub-list Animation effectively */
@@ -160,7 +156,7 @@
     padding-left: 40px;
     font-style: italic;
     font-size: 0.85rem;
-    color: var(--text-dim);
+    color: var(--color-text-muted);
     cursor: default;
     padding-top: 4px;
     padding-bottom: 4px;
@@ -177,26 +173,24 @@
     align-items: center;
     gap: 12px;
     padding: 12px;
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.03);
     border-radius: var(--radius-md);
     margin-bottom: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid var(--color-border);
 }
 
 .avatar {
     width: 40px;
     height: 40px;
-    border-radius: 14px;
-    /* Squircle */
-    background: linear-gradient(135deg, #f9a8d4, #c084fc);
-    /* Pink to Purple pastel */
+    border-radius: 12px;
+    background: var(--color-accent-gradient);
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
     font-size: 1.1rem;
     color: white;
-    box-shadow: 0 4px 10px rgba(192, 132, 252, 0.3);
+    box-shadow: 0 4px 12px var(--color-accent-glow);
 }
 
 .user-info {
@@ -207,12 +201,12 @@
 .user-name {
     font-size: 0.9rem;
     font-weight: 600;
-    color: var(--text-main);
+    color: var(--color-text-primary);
 }
 
 .user-status {
     font-size: 0.75rem;
-    color: var(--primary);
+    color: var(--color-accent);
     font-weight: 500;
 }
 
@@ -226,14 +220,15 @@
 .login-container {
     padding: 24px;
     text-align: center;
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.03);
     border-radius: var(--radius-md);
     margin: 16px;
+    border: 1px solid var(--color-border);
 }
 
 .login-btn-large {
     width: 100%;
-    background: var(--primary);
+    background: var(--color-accent-gradient);
     color: white;
     border: none;
     padding: 14px;
@@ -244,12 +239,11 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    transition: all 0.2s var(--ease-spring);
-    box-shadow: 0 4px 15px var(--primary-soft);
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px var(--color-accent-glow);
 }
 
 .login-btn-large:hover {
-    background: var(--primary-hover);
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px var(--primary-soft);
+    box-shadow: 0 8px 25px var(--color-accent-glow);
 }

@@ -1,42 +1,4 @@
-:root {
-  /* Core Colors - Soft/Pastel Kriss.ai Theme */
-  --bg-app: #0f1115;
-  --bg-gradient: linear-gradient(135deg, #0f1115 0%, #161920 100%);
-
-  --bg-panel: rgba(22, 25, 32, 0.7);
-  --bg-surface: rgba(30, 34, 43, 0.85);
-  --bg-card: #1e222b;
-
-  --primary: #6366f1;
-  --primary-hover: #4f46e5;
-  --primary-soft: rgba(99, 102, 241, 0.1);
-
-  --text-main: #ffffff;
-  --text-muted: #9ca3af;
-  --text-dim: #6b7280;
-
-  --border-subtle: rgba(255, 255, 255, 0.4);
-  --border-highlight: rgba(255, 255, 255, 0.8);
-
-  --glass-bg: rgba(255, 255, 255, 0.4);
-  --glass-border: rgba(255, 255, 255, 0.3);
-
-  /* Shadows are critical for 3D feel */
-  --shadow-sm: 0 4px 6px -1px rgba(60, 40, 35, 0.05), 0 2px 4px -1px rgba(60, 40, 35, 0.03);
-  --shadow-md: 0 10px 15px -3px rgba(60, 40, 35, 0.08), 0 4px 6px -2px rgba(60, 40, 35, 0.04);
-  --shadow-lg: 0 20px 25px -5px rgba(60, 40, 35, 0.1), 0 10px 10px -5px rgba(60, 40, 35, 0.04);
-  --shadow-inner: inset 0 2px 4px 0 rgba(255, 255, 255, 0.6);
-
-  /* Spacing & Radius */
-  --radius-sm: 12px;
-  --radius-md: 20px;
-  --radius-lg: 32px;
-  --header-height: 70px;
-  --sidebar-width: 280px;
-
-  /* Animation */
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-}
+@import './styles/variables.css';
 
 * {
   box-sizing: border-box;
@@ -45,22 +7,19 @@
 }
 
 body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background: var(--bg-gradient);
-  background-attachment: fixed;
-  /* fix gradient */
-  color: var(--text-main);
+  font-family: var(--font-sans);
+  background: var(--color-bg-main);
+  color: var(--color-text-primary);
   min-height: 100vh;
   overflow-y: auto;
-  /* Changed from hidden to allow landing page to scroll */
   -webkit-font-smoothing: antialiased;
 }
 
 #root {
-  height: 100%;
+  height: 100vh;
 }
 
-/* Scrollbar */
+/* Scrollbar Customization */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -71,12 +30,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 /* Utilities */
@@ -86,8 +45,8 @@ body {
   justify-content: center;
   height: 100vh;
   width: 100vw;
-  background: var(--bg-gradient);
-  color: var(--text-muted);
+  background: var(--color-bg-main);
+  color: var(--color-text-secondary);
   font-size: 1.1rem;
   font-weight: 500;
 }
@@ -95,31 +54,44 @@ body {
 .icon-btn {
   background: transparent;
   border: none;
-  color: var(--text-muted);
+  color: var(--color-text-secondary);
   cursor: pointer;
   padding: 8px;
   border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s var(--ease-spring);
+  transition: all 0.2s ease;
 }
 
 .icon-btn:hover {
-  background: rgba(255, 255, 255, 0.5);
-  color: var(--primary);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--color-text-primary);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .icon-btn.primary {
-  background: var(--primary);
+  background: var(--color-accent-gradient);
   color: white;
-  box-shadow: 0 4px 12px var(--primary-soft);
+  box-shadow: 0 4px 12px var(--color-accent-glow);
 }
 
 .icon-btn.primary:hover {
-  background: var(--primary-hover);
-  box-shadow: 0 8px 16px var(--primary-soft);
+  box-shadow: 0 8px 16px var(--color-accent-glow);
   transform: translateY(-2px);
+}
+
+/* Global App Container */
+.app-container {
+  display: flex;
+  height: 100vh;
+  padding: 20px;
+  gap: 20px;
+  background: var(--color-bg-main);
+}
+
+.content-area {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
 }
