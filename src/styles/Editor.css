@@ -1,0 +1,177 @@
+/* Editor.css - Floating Paper Sheet Metaphor */
+.note-editor {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: white;
+    /* The Paper */
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    /* Deep shadow to float above desk */
+    overflow: hidden;
+    /* rounded corners clip content */
+    position: relative;
+    border: 1px solid white;
+    /* clean edge */
+}
+
+.editor-header {
+    height: auto;
+    min-height: 90px;
+    padding: 32px 48px 16px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: white;
+}
+
+/* Title Input */
+.title-input {
+    font-size: 2.5rem;
+    font-weight: 800;
+    border: none;
+    background: transparent;
+    padding: 0;
+    width: 100%;
+    color: var(--text-main);
+    letter-spacing: -0.02em;
+    outline: none;
+    font-family: inherit;
+    /* Gradient text effect for title maybe? */
+}
+
+.title-input::placeholder {
+    color: var(--border-highlight);
+    /* Very subtle placeholder */
+}
+
+.status-badge {
+    font-size: 0.8rem;
+    color: var(--primary);
+    font-weight: 500;
+    align-self: flex-start;
+    padding: 4px 10px;
+    background: var(--primary-soft);
+    border-radius: 12px;
+}
+
+/* Toolbar */
+.editor-toolbar {
+    padding: 12px 48px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid var(--border-subtle);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    backdrop-filter: blur(5px);
+}
+
+.editor-toolbar button {
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    height: 36px;
+    width: 36px;
+}
+
+.editor-toolbar button:hover {
+    background: var(--bg-gradient);
+    /* Subtle gradient on hover */
+    color: var(--text-main);
+    transform: translateY(-1px);
+}
+
+.editor-toolbar button.is-active {
+    background: var(--primary-soft);
+    color: var(--primary);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.divider {
+    width: 1px;
+    height: 20px;
+    background: var(--border-subtle);
+    margin: 0 8px;
+}
+
+/* Editor Canvas */
+.editor-canvas {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 48px 80px 48px;
+    cursor: text;
+    background: white;
+}
+
+/* Typography (ProseMirror) */
+.ProseMirror {
+    outline: none;
+    min-height: 400px;
+    max-width: 800px;
+    margin: 0 auto;
+    color: var(--text-main);
+    font-size: 1.1rem;
+    line-height: 1.75;
+}
+
+.ProseMirror p {
+    margin-bottom: 1.25em;
+}
+
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3 {
+    color: #1a1a1a;
+    font-weight: 700;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    line-height: 1.2;
+}
+
+.ProseMirror h1 {
+    font-size: 2em;
+    letter-spacing: -0.01em;
+}
+
+.ProseMirror h2 {
+    font-size: 1.5em;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+    padding-left: 1.5em;
+    margin-bottom: 1.25em;
+    color: var(--text-muted);
+}
+
+.ProseMirror blockquote {
+    border-left: 4px solid var(--primary);
+    padding-left: 1.5rem;
+    margin-left: 0;
+    font-style: italic;
+    color: var(--text-muted);
+    background: var(--primary-soft);
+    padding: 1rem 1.5rem;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.ProseMirror pre {
+    background: var(--bg-app);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    overflow-x: auto;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+    color: var(--text-main);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
