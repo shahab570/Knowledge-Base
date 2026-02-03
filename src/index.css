@@ -1,24 +1,19 @@
 :root {
   /* Core Colors - Soft/Pastel Kriss.ai Theme */
-  --bg-app: #dccdc6;
-  /* Warm taupe base */
-  --bg-gradient: linear-gradient(135deg, #e6dad6 0%, #d8c4bc 100%);
+  --bg-app: #0f1115;
+  --bg-gradient: linear-gradient(135deg, #0f1115 0%, #161920 100%);
 
-  --bg-panel: rgba(255, 255, 255, 0.65);
-  /* Frosted Glass */
-  --bg-surface: rgba(255, 255, 255, 0.85);
-  /* More opaque surface */
-  --bg-card: #ffffff;
+  --bg-panel: rgba(22, 25, 32, 0.7);
+  --bg-surface: rgba(30, 34, 43, 0.85);
+  --bg-card: #1e222b;
 
-  --primary: #8b5cf6;
-  /* Soft Violet/Purple accent like Kriss.ai graphics */
-  --primary-hover: #7c3aed;
-  --primary-soft: rgba(139, 92, 246, 0.1);
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
+  --primary-soft: rgba(99, 102, 241, 0.1);
 
-  --text-main: #3d3431;
-  /* Soft Black/Dark Brown */
-  --text-muted: #786963;
-  --text-dim: #a89a95;
+  --text-main: #ffffff;
+  --text-muted: #9ca3af;
+  --text-dim: #6b7280;
 
   --border-subtle: rgba(255, 255, 255, 0.4);
   --border-highlight: rgba(255, 255, 255, 0.8);
@@ -55,8 +50,9 @@ body {
   background-attachment: fixed;
   /* fix gradient */
   color: var(--text-main);
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-y: auto;
+  /* Changed from hidden to allow landing page to scroll */
   -webkit-font-smoothing: antialiased;
 }
 
