@@ -4,7 +4,10 @@ import { useData } from '../contexts/DataContext';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
-import { Bold, Italic, List, ListOrdered, Heading1, Heading2, Quote, Download } from 'lucide-react';
+import { Color } from '@tiptap/extension-color';
+import { TextStyle } from '@tiptap/extension-text-style';
+import { Highlight } from '@tiptap/extension-highlight';
+import { Bold, Italic, List, ListOrdered, Heading1, Heading2, Quote, Download, Type, Highlighter } from 'lucide-react';
 import { exportNoteToDocx } from '../utils/exportUtils';
 import { db } from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
@@ -13,11 +16,66 @@ import '../styles/Editor.css';
 const MenuBar = ({ editor, title }) => {
     if (!editor) return null;
 
+    const colors = [
+        { name: 'Default', value: 'inherit' },
+        { name: 'Indigo', value: '#6366f1' },
+        { name: 'Purple', value: '#a855f7' },
+        { name: 'Pink', value: '#ec4899' },
+        { name: 'Red', value: '#ef4444' },
+        { name: 'Orange', value: '#f97316' },
+        { name: 'Green', value: '#22c55e' },
+        { name: 'Blue', value: '#3b82f6' },
+    ];
+
+    const highlights = [
+        { name: 'None', value: 'transparent' },
+        { name: 'Yellow', value: '#fef08a' },
+        { name: 'Green', value: '#bbf7d0' },
+        { name: 'Blue', value: '#bfdbfe' },
+        { name: 'Pink', value: '#fbcfe8' },
+        { name: 'Purple', value: '#e9d5ff' },
+        { name: 'Indigo', value: '#c7d2fe' },
+    ];
+
     return (
         <div className="editor-toolbar">
             <button onClick={() => editor.chain().focus().toggleBold().run()} className={editor.isActive('bold') ? 'is-active' : ''}><Bold size={18} /></button>
             <button onClick={() => editor.chain().focus().toggleItalic().run()} className={editor.isActive('italic') ? 'is-active' : ''}><Italic size={18} /></button>
             <button onClick={() => editor.chain().focus().toggleUnderline().run()} className={editor.isActive('underline') ? 'is-active' : ''}><span style={{ textDecoration: 'underline', fontWeight: 'bold' }}>U</span></button>
+
+            <div className="divider" />
+
+            <div className="toolbar-group">
+                <div className="color-picker-wrapper">
+                    <button className="toolbar-btn"><Type size={18} /></button>
+                    <div className="color-dropdown">
+                        {colors.map(c => (
+                            <div
+                                key={c.value}
+                                className="color-option"
+                                style={{ backgroundColor: c.value === 'inherit' ? '#fff' : c.value }}
+                                onClick={() => editor.chain().focus().setColor(c.value === 'inherit' ? '' : c.value).run()}
+                                title={c.name}
+                            />
+                        ))}
+                    </div>
+                </div>
+
+                <div className="color-picker-wrapper">
+                    <button className="toolbar-btn"><Highlighter size={18} /></button>
+                    <div className="color-dropdown">
+                        {highlights.map(h => (
+                            <div
+                                key={h.value}
+                                className="color-option highlight-option"
+                                style={{ backgroundColor: h.value === 'transparent' ? '#ccc' : h.value }}
+                                onClick={() => editor.chain().focus().toggleHighlight({ color: h.value }).run()}
+                                title={h.name}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </div>
 
             <div className="divider" />
 
@@ -48,7 +106,13 @@ export default function NoteEditor() {
     const loadedNoteId = useRef(null);
 
     const editor = useEditor({
-        extensions: [StarterKit, Underline],
+        extensions: [
+            StarterKit,
+            Underline,
+            TextStyle,
+            Color,
+            Highlight.configure({ multicolor: true }),
+        ],
         content: '',
         onUpdate: ({ editor }) => {
             if (loadedNoteId.current === noteId) {
