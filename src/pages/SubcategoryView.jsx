@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Outlet, useMatch } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useData } from '../contexts/DataContext';
-import { FileText, Search } from 'lucide-react';
+import { FileText, Search, Trash2 } from 'lucide-react';
 import '../styles/NoteList.css';
 
 // DnD
@@ -77,6 +77,18 @@ export default function SubcategoryView() {
                                             {note.updatedAt?.seconds ? new Date(note.updatedAt.seconds * 1000).toLocaleDateString() : 'Just now'}
                                         </div>
                                     </div>
+                                    <button
+                                        className="delete-note-btn"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            if (confirm("Delete this note?")) {
+                                                DataService.deleteNote(note.id);
+                                            }
+                                        }}
+                                        title="Delete Note"
+                                    >
+                                        <Trash2 size={16} />
+                                    </button>
                                 </div>
                             </SortableItem>
                         ))}

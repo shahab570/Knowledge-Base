@@ -13,8 +13,21 @@ const firebaseConfig = {
     measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const analytics = getAnalytics(app);
+
+// Initialize Analytics conditionally to prevent errors in dev or if ad-blockers are present
+// let analytics;
+// try {
+//     if (typeof window !== 'undefined') {
+//         analytics = getAnalytics(app);
+//     }
+// } catch (error) {
+//     console.warn("Firebase Analytics failed to initialize:", error);
+// }
+
+// export { analytics };
+export const analytics = null;
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 export const db = getFirestore(app);

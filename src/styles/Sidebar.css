@@ -79,8 +79,7 @@
 .tree-row:hover {
     background: rgba(255, 255, 255, 0.08);
     color: var(--color-text-primary);
-    padding-left: 18px;
-    /* Subtle padding shift instead of whole block translate */
+    box-shadow: inset 3px 0 0 var(--color-accent);
 }
 
 .category-row {

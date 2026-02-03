@@ -26,3 +26,47 @@
 .content-area ::-webkit-scrollbar-track {
     background: transparent;
 }
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .app-container {
+        padding: 16px;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .app-container {
+        padding: 0;
+        gap: 0;
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        border-top: none;
+        flex-shrink: 0;
+        z-index: 100;
+        background: rgba(20, 20, 23, 0.95);
+    }
+
+    .sidebar-content {
+        display: none;
+        /* Hide sidebar content by default on mobile, maybe expand on click? */
+        /* For now, let's keep it simple: Sticky header, or a drawer? */
+        /* Actually, user wants a mobile layout. A drawer is best. */
+    }
+
+    .sidebar.mobile-open .sidebar-content {
+        display: block;
+        height: calc(100vh - 60px);
+    }
+
+    .content-area {
+        border-radius: 0;
+    }
+}

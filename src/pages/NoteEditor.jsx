@@ -16,6 +16,23 @@ import '../styles/Editor.css';
 const MenuBar = ({ editor, title }) => {
     if (!editor) return null;
 
+    const [activeDropdown, setActiveDropdown] = useState(null);
+
+    // Close dropdowns when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (!event.target.closest('.color-picker-wrapper')) {
+                setActiveDropdown(null);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    const toggleDropdown = (name) => {
+        setActiveDropdown(activeDropdown === name ? null : name);
+    };
+
     const colors = [
         { name: 'Default', value: 'inherit' },
         { name: 'Indigo', value: '#6366f1' },
@@ -45,36 +62,65 @@ const MenuBar = ({ editor, title }) => {
 
             <div className="divider" />
 
-            <div className="toolbar-group">
-                <div className="color-picker-wrapper">
-                    <button className="toolbar-btn"><Type size={18} /></button>
-                    <div className="color-dropdown">
+            {/* Flat structure for color pickers to avoid vertical stacking issues */}
+            <div className="color-picker-wrapper" style={{ position: 'relative' }}>
+                <button
+                    className={`toolbar-btn ${activeDropdown === 'color' ? 'is-active' : ''}`}
+                    title="Text Color"
+                    onClick={() => toggleDropdown('color')}
+                >
+                    <Type size={18} />
+                </button>
+                {activeDropdown === 'color' && (
+                    <div className="color-dropdown is-open">
                         {colors.map(c => (
                             <div
                                 key={c.value}
                                 className="color-option"
                                 style={{ backgroundColor: c.value === 'inherit' ? '#fff' : c.value }}
-                                onClick={() => editor.chain().focus().setColor(c.value === 'inherit' ? '' : c.value).run()}
+                                onClick={() => {
+                                    if (c.value === 'inherit') {
+                                        editor.chain().focus().unsetColor().run();
+                                    } else {
+                                        editor.chain().focus().setColor(c.value).run();
+                                    }
+                                    setActiveDropdown(null);
+                                }}
                                 title={c.name}
                             />
                         ))}
                     </div>
-                </div>
+                )}
+            </div>
 
-                <div className="color-picker-wrapper">
-                    <button className="toolbar-btn"><Highlighter size={18} /></button>
-                    <div className="color-dropdown">
+            <div className="color-picker-wrapper" style={{ position: 'relative' }}>
+                <button
+                    className={`toolbar-btn ${activeDropdown === 'highlight' ? 'is-active' : ''}`}
+                    title="Highlight"
+                    onClick={() => toggleDropdown('highlight')}
+                >
+                    <Highlighter size={18} />
+                </button>
+                {activeDropdown === 'highlight' && (
+                    <div className="color-dropdown is-open">
                         {highlights.map(h => (
                             <div
                                 key={h.value}
                                 className="color-option highlight-option"
                                 style={{ backgroundColor: h.value === 'transparent' ? '#ccc' : h.value }}
-                                onClick={() => editor.chain().focus().toggleHighlight({ color: h.value }).run()}
+                                onClick={() => {
+                                    if (h.value === 'transparent') {
+                                        editor.chain().focus().unsetHighlight().run();
+                                    } else {
+                                        editor.chain().focus().toggleHighlight({ color: h.value }).run();
+                                    }
+                                    setActiveDropdown(null);
+                                }}
                                 title={h.name}
                             />
                         ))}
                     </div>
-                </div>
+                )}
             </div>
 
             <div className="divider" />
@@ -103,19 +149,19 @@ export default function NoteEditor() {
     const [status, setStatus] = useState('saved');
     const [title, setTitle] = useState('');
 
-    const loadedNoteId = useRef(null);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const editor = useEditor({
         extensions: [
             StarterKit,
-            Underline,
+            // Underline, // causing duplicate warning
             TextStyle,
             Color,
             Highlight.configure({ multicolor: true }),
         ],
         content: '',
         onUpdate: ({ editor }) => {
-            if (loadedNoteId.current === noteId) {
+            if (isLoaded) {
                 setStatus('unsaved');
             }
         },
@@ -123,7 +169,7 @@ export default function NoteEditor() {
 
     // Debounced Save
     useEffect(() => {
-        if (status !== 'unsaved' || !editor) return;
+        if (!isLoaded || status !== 'unsaved' || !editor) return;
 
         const timer = setTimeout(() => {
             setStatus('saving');
@@ -137,38 +183,51 @@ export default function NoteEditor() {
         }, 1500);
 
         return () => clearTimeout(timer);
-    }, [status, title, editor, noteId]);
+    }, [status, title, editor, noteId, isLoaded]);
 
     // Fetch Note Data
     useEffect(() => {
         if (!noteId || !editor) return;
 
+        setIsLoaded(false); // Lock saving
         setTitle('');
         setStatus('saved');
-        loadedNoteId.current = null;
         editor.commands.setContent('');
+        editor.setEditable(false); // Prevent typing while loading
 
         getDoc(doc(db, "notes", noteId)).then(snap => {
             if (snap.exists()) {
                 const data = snap.data();
                 setTitle(data.title || '');
-
-                if (loadedNoteId.current !== noteId) {
-                    editor.commands.setContent(data.content || '');
-                    loadedNoteId.current = noteId;
-                }
+                editor.commands.setContent(data.content || '');
             }
+            setIsLoaded(true); // Unlock saving
+            editor.setEditable(true);
+        }).catch(err => {
+            console.error("Failed to load note:", err);
+            setIsLoaded(true); // Unlock to allow creating new content if fetch failed (or maybe handle error better)
+            editor.setEditable(true);
         });
     }, [noteId, editor]);
 
     return (
         <div className="note-editor">
             <div className="editor-header">
-                <input
+                <textarea
                     value={title}
-                    onChange={e => { setTitle(e.target.value); setStatus('unsaved'); }}
+                    onChange={e => {
+                        setTitle(e.target.value);
+                        setStatus('unsaved');
+                        e.target.style.height = 'auto';
+                        e.target.style.height = e.target.scrollHeight + 'px';
+                    }}
+                    onInput={e => {
+                        e.target.style.height = 'auto';
+                        e.target.style.height = e.target.scrollHeight + 'px';
+                    }}
                     className="title-input"
                     placeholder="Untitled Note"
+                    rows={1}
                 />
                 <div className="status-badge">
                     {status === 'saving' && 'Saving...'}
@@ -177,6 +236,14 @@ export default function NoteEditor() {
                     {status === 'unsaved' && 'Unsaved changes...'}
                 </div>
             </div>
+
+            {/* Mobile Back Button - Only visible on small screens handled by CSS media queries usually, or we can add a class */}
+            <div className="mobile-only-nav" style={{ padding: '0 20px', display: 'none' }}>
+                <button onClick={() => window.history.back()} style={{ background: 'transparent', border: 'none', color: 'var(--color-text-secondary)', display: 'flex', alignItems: 'center', gap: '5px', cursor: 'pointer' }}>
+                    ← Back to list
+                </button>
+            </div>
+
             <MenuBar editor={editor} title={title} />
             <div className="editor-canvas">
                 <EditorContent editor={editor} />
